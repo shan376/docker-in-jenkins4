@@ -1,0 +1,28 @@
+- name: Deploy App using Docker
+  hosts: web
+  become: yes
+  tasks:
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Clone App Repo
+      git:
+        repo: https://github.com/shan376/docker-in-jenkins4.git
+        dest: /home/ubuntu/myapp
+        force: yes
+
+    - name: Build Docker Image
+      command: docker build -t myapp:latest .
+      args:
+        chdir: /home/ubuntu/myapp
+
+    - name: Stop Running Container (if any)
+      shell: |
+        docker ps -q --filter "ancestor=myapp:latest" | xargs -r docker stop
+      ignore_errors: yes
+
+    - name: Run Docker Container
+      command: docker run -d -p 3000:3000 myapp:latest
