@@ -1,16 +1,17 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone Repo') {
-            steps {
-                git credentialsId: 'your-credentials-id', url: 'https://github.com/shan376/docker-in-jenkins4.git'
-            }
-        }
+    environment {
+        DEPLOY_KEY = '/home/ubuntu/nd.pem'  // Or wherever your SSH key is
+    }
 
+    stages {
         stage('Run Ansible') {
             steps {
+                // Avoid host key verification issue
                 sh 'ssh-keyscan -H 18.246.217.247 >> ~/.ssh/known_hosts'
+
+                // Run the Ansible playbook
                 sh 'ansible-playbook -i inventory.ini deploy.yml'
             }
         }
