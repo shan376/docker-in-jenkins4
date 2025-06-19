@@ -1,5 +1,14 @@
-"scripts": {
-  "start": "node index.js",
-  "test": "echo \"Test passed\" && exit 0",
-  "build": "echo \"Build successful\""
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "Sample Node app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Test passed\" && exit 0",
+    "build": "echo \"Build successful\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
 }
